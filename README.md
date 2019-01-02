@@ -1,18 +1,20 @@
 ![CF](http://i.imgur.com/7v5ASc8.png) LAB
 =================================================
 
-## Project Name
+## 07 - TCP Server
 
-### Author: Student/Group Name
+### Author: Michael George, Code Fellows 401d28
 
 ### Links and Resources
-* [repo](http://xyz.com)
-* [travis](http://xyz.com)
+[![Build Status](https://travis-ci.com/michaelageorge/07-tcp-server.svg?branch=master)](https://travis-ci.com/michaelageorge/07-tcp-server)
+
+* [repo](https://github.com/michaelageorge/07-tcp-server)
+* [travis](https://travis-ci.com/michaelageorge/07-tcp-server)
 * [back-end](http://xyz.com)
 * [front-end](http://xyz.com)
 
 ### Modules
-#### `modulename.js`
+#### `chatroom.js`
 ##### Exported Values and Methods
 
 ###### `foo(thing) -> string`
