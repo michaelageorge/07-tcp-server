@@ -11,6 +11,12 @@ const server = net.createServer();
 const socketPool = {};
 const commands = {};
 
+const app = require('./modules/app.js');
+const events = require('./modules/events.js');
+const logger = require('./modules/logger.js');
+
+let socketArray = {};
+
 server.on('connection', (socket) => {
   let id = uuid();
   socketPool[id] = {
@@ -18,35 +24,21 @@ server.on('connection', (socket) => {
     nickname: `User-${id}`,
     socket: socket,
   };
-  socket.on('data', (buffer) => dispatchAction(id, buffer));
+  socketArray['newId'] = socketPool[id].id;
+  socket.on('data', (buffer) => events.emit('emitting-socket', buffer, id, socketPool, socketArray));
 });
 
-let parse = (buffer) => {
-  let text = buffer.toString().trim();
-  if ( !text.startsWith('@') ) { return null; }
-  let [command,payload] = text.split(/\s+(.*)/);
-  let [target,message] = payload.split(/\s+(.*)/);
-  return {command,payload,target,message};
-};
+events.on('quit', quitServer);
 
-let dispatchAction = (userId, buffer) => {
-  let entry = parse(buffer);
-  if ( entry && typeof commands[entry.command] === 'function' ) {
-    commands[entry.command](entry, userId);
-  }
-};
-
-commands['@all'] =  (data, userId) => {
-  for( let connection in socketPool ) {
-    let user = socketPool[connection];
-    user.socket.write(`<${socketPool[userId].nickname}>: ${data.payload}\n`);
-  }
-};
-
-commands['@nick'] =  (data, userId) => {
-  socketPool[userId].nickname = data.target;
-};
+function quitServer(data, userId, socketPool) {
+  console.log('In quitServer');
+  server.close('connection', (cb) => {
+    cb(console.log('user left'));
+  });
+}
 
 server.listen(port, () => {
   console.log(`Chat Server up on ${port}`);
 });
+
+module.exports = {server, socketArray};
