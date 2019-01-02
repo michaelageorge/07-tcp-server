@@ -42,3 +42,7 @@ Usage Notes or examples
 
 #### UML
 Link to an image of the UML for your application and response to events
+
+
+## Help and Citations
+Heather Cherewaty helped me figure out what I was modularizing.
